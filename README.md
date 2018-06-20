@@ -1,2 +1,0 @@
-"# OptimalizationAlgorithms" 
-"MySQL_CharCustomization" 
