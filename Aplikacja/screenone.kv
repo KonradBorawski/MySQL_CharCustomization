@@ -1,0 +1,86 @@
+#: import main projektDB
+#: import ListAdapter kivy.adapters.listadapter.ListAdapter
+#: import ListItemButton kivy.uix.listview.ListItemButton
+#: import Factory kivy.factory.Factory
+
+<CustomLabel@Label>
+	font_size: 22
+<CustomButton@Button>
+	font_size: 32
+<CustomBoxLayout@BoxLayout>
+	spacing: 5
+	padding: 10
+
+<ScreenOne>:
+	labelHelm: labelHelm1
+	labelShoulders: labelShoulders1
+	labelChestplate: labelChestplate1
+	labelGloves: labelGloves1
+	labelPants: labelPants1
+	labelBoots: labelBoots1
+	labelWeapon: labelWeapon1
+	BoxLayout:
+		orientation: 'horizontal'
+		Image:
+			source: 'equipment.jpg'
+		CustomBoxLayout:
+			orientation: 'vertical'
+			CustomBoxLayout:
+				orientation: 'vertical'
+				CustomButton:
+					text: 'Statystyki postaci'
+					on_release: root.open_popup('CharactersStats')
+				CustomButton:
+					text: 'Zalozone przedmioty'
+					on_release: root.open_popup('EquippedItems')
+				
+				CustomButton:
+					text: 'Baza przedmiotow'
+					on_release:
+						root.manager.transition.direction = 'left'
+						root.manager.transition.duration = 1
+						root.manager.current = 'screen_two'
+			CustomBoxLayout:
+				size_hint_y: 0.2
+				CustomButton:
+					text: "Wyjdz"
+					on_release: root.stopApplication()
+	Widget:
+		Label:
+			id: labelHelm1
+			pos: 428,564
+			color: 0,0,0,1
+			text: root.getEquippedItem('helm')
+		Label:	
+			id: labelShoulders1
+			pos: 432,460
+			color: 0,0,0,1
+			font_size: 13
+			text: root.getEquippedItem('shoulders')
+		Label:	
+			id: labelChestplate1
+			pos: 60,378
+			color: 0,0,0,1
+			text: root.getEquippedItem('chestplate')
+
+		Label:	
+			id: labelGloves1
+			pos: 55,277
+			color: 0,0,0,1
+			text: root.getEquippedItem('gloves')
+		Label:	
+			id: labelPants1
+			pos: 422,246
+			color: 0,0,0,1
+			text: root.getEquippedItem('pants')
+		Label:	
+			id: labelBoots1
+			pos: 50,94
+			color: 0,0,0,1
+			text: root.getEquippedItem('boots')
+		Label:	
+			id: labelWeapon1
+			pos: 410,20
+			color: 0,0,0,1
+			text: root.getEquippedItem('weapon')
+

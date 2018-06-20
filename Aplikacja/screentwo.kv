@@ -1,0 +1,133 @@
+<SelectableButton>:
+	on_release:
+		root.open_popup()
+
+<CustomRecycleViewGridLayout@RecycleViewGridLayout>:
+	cols: 1
+	default_size: None, dp(26)
+	default_size_hint: 1, None
+#:set color_button (0.784, 0.443, 0.216, 1)  # brown
+#:set color_button_pressed (0.659, 0.522, 0.431, 1)  # darker brown
+#:set color_font   (0.957, 0.890, 0.843, 1)  # off white
+<CustomSpinnerOption@SpinnerOption>:
+    background_color: color_button if self.state == 'down' else color_button_pressed
+    color: color_font
+	font_size: 28
+
+<ScreenTwo>:
+	CustomBoxLayout:
+		CustomBoxLayout:
+			orientation: 'vertical'
+			BoxLayout:
+				spacing: 0
+				padding: 0
+				orientation: 'vertical'
+				BoxLayout:
+					size_hint_y: .07
+					Button:
+						text: 'ID'
+						size_hint_x: .3
+						on_release: root.recycleView.sortByID(spinnerElement.text)
+					Button:
+						text:'Name'
+						on_release: root.recycleView.sortElements(spinnerElement.text,'name')
+					Button:
+						id: ArmorOrDamage
+						text:'Armor'
+						size_hint_x: .35
+						on_release:
+							if self.text=='Armor': root.recycleView.sortElements(spinnerElement.text,'armor')
+							else: root.recycleView.sortElements(spinnerElement.text,'damage')
+					Button:
+						text:'Bonus'
+					Button:
+						text:'Cost'
+						size_hint_x: .4
+						on_release: root.recycleView.sortElements(spinnerElement.text,'cost')
+				BoxLayout:
+					RecycleView:
+						id: recycleViewID
+						size_hint_x: .3
+						viewclass: 'SelectableButton'
+						data:  [{'text': str(x), 'element': spinnerElement.text} for x in root.recycleView.columnID]
+						CustomRecycleViewGridLayout:
+					RecycleView:
+						viewclass: 'SelectableButton'
+						data: [{'text': str(x)} for x in root.recycleView.columnName]
+						CustomRecycleViewGridLayout:
+					RecycleView:
+						size_hint_x: .35
+						viewclass: 'SelectableButton'
+						data: [{'text': str(x)} for x in root.recycleView.columnArmorOrDamage]
+						CustomRecycleViewGridLayout:
+					RecycleView:
+						viewclass: 'SelectableButton'
+						data: [{'text': str(x)} for x in root.recycleView.columnBonus]
+						CustomRecycleViewGridLayout:
+					RecycleView:
+						size_hint_x: .4
+						viewclass: 'SelectableButton'
+						data: [{'text': str(x)} for x in root.recycleView.columnCost]
+						CustomRecycleViewGridLayout:
+			CustomBoxLayout:
+				size_hint_y: .16
+				TextInput:
+					id: textInputSearch
+					padding_y: [self.height / 3.0 , 0]
+					on_text:
+						if self.text != '': root.recycleView.searchForItems(spinnerElement.text,textInputSearch.text)
+						else: root.recycleView.printChosenItems(spinnerElement.text)
+				Button:
+					size_hint_x: .35
+					text: 'Wyszukaj'
+					on_release: 
+						textInputSearch.focus = True
+			CustomBoxLayout:
+				size_hint_y: .3
+				Spinner:
+					id: spinnerElement
+					option_cls: Factory.get("CustomSpinnerOption")
+					text: 'Helm'
+					font_size: 32
+					values: ['Helm', 'Naramienniki', 'Zbroja', 'Rekawiczki', 'Spodnie', 'Buty','Bron']
+					on_text: 
+						root.recycleView.printChosenItems(self.text)	
+						textInputSearch.text = ''
+						if self.text == 'Bron': ArmorOrDamage.text = 'Damage'
+						else: ArmorOrDamage.text = 'Armor'
+					on_release: 
+						root.recycleView.printChosenItems(self.text)
+
+
+		CustomBoxLayout:
+			size_hint_x: .7
+			orientation: 'vertical'
+			CustomBoxLayout:
+				orientation: 'vertical'
+				CustomBoxLayout:
+					CustomButton:
+						text: "Dodaj"
+						on_release: root.open_popup('AddItem')
+				CustomBoxLayout:
+					size_hint_y: .7
+					CustomButton:
+						text: "Cofnij"
+						on_release:
+							root.manager.get_screen('screen_one').labelHelm.text = root.manager.get_screen('screen_one').getEquippedItem('helm')
+							root.manager.get_screen('screen_one').labelShoulders.text = root.manager.get_screen('screen_one').getEquippedItem('shoulders')
+							root.manager.get_screen('screen_one').labelChestplate.text = root.manager.get_screen('screen_one').getEquippedItem('chestplate')
+							root.manager.get_screen('screen_one').labelGloves.text = root.manager.get_screen('screen_one').getEquippedItem('gloves')
+							root.manager.get_screen('screen_one').labelPants.text = root.manager.get_screen('screen_one').getEquippedItem('pants')
+							root.manager.get_screen('screen_one').labelBoots.text = root.manager.get_screen('screen_one').getEquippedItem('boots')
+							root.manager.get_screen('screen_one').labelWeapon.text = root.manager.get_screen('screen_one').getEquippedItem('weapon')
+							root.manager.transition.direction = 'right'
+							root.manager.transition.duration = 1
+							root.manager.current = 'screen_one'
+							root.manager.get_screen('screen_one').labelHelm.text = root.manager.get_screen('screen_one').getEquippedItem('helm')
+							root.manager.get_screen('screen_one').labelShoulders.text = root.manager.get_screen('screen_one').getEquippedItem('shoulders')
+							root.manager.get_screen('screen_one').labelChestplate.text = root.manager.get_screen('screen_one').getEquippedItem('chestplate')
+							root.manager.get_screen('screen_one').labelGloves.text = root.manager.get_screen('screen_one').getEquippedItem('gloves')
+							root.manager.get_screen('screen_one').labelPants.text = root.manager.get_screen('screen_one').getEquippedItem('pants')
+							root.manager.get_screen('screen_one').labelBoots.text = root.manager.get_screen('screen_one').getEquippedItem('boots')
+							root.manager.get_screen('screen_one').labelWeapon.text = root.manager.get_screen('screen_one').getEquippedItem('weapon')
+							

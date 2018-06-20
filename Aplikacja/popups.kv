@@ -1,0 +1,205 @@
+<CustomPopup>:
+    size_hint: .8,.8
+    auto_dismiss: False
+
+<CharactersStats>:
+	CustomBoxLayout:
+		orientation: 'vertical'
+		BoxLayout:
+			Label:
+				font_size: 40
+				text: 'Postac'
+			Label:
+				font_size: 40
+				text: 'Zloto' 
+			Label:
+				font_size: 40
+				text: 'Poziom'
+		BoxLayout:
+			Label:
+				font_size: 22
+				text: root.checkPlayer('name')
+			Label:
+				font_size: 22
+				text: root.checkPlayer('gold')
+			Label:
+				font_size: 22
+				text: root.checkPlayer('level')
+		BoxLayout:
+		BoxLayout:
+			orientation: 'vertical'
+			spacing: 10
+			CustomLabel:
+				text: 'Sila ' + str(root.checkStats('strength'))+'/20'
+			ProgressBar:
+				max: 20
+				value: root.checkStats('strength')
+		BoxLayout:
+			orientation: 'vertical'
+			spacing: 10
+			CustomLabel:
+				text: 'Zrecznosc ' + str(root.checkStats('dexterity'))+'/20'
+			ProgressBar:
+				max: 20
+				value: root.checkStats('dexterity')
+		BoxLayout:
+			orientation: 'vertical'
+			spacing: 10
+			CustomLabel:
+				text: 'Zywotnosc ' + str(root.checkStats('vitality'))+'/20'
+			ProgressBar:
+				max: 20
+				value: root.checkStats('vitality')
+		BoxLayout:
+			orientation: 'vertical'
+			spacing: 10
+			CustomLabel:
+				text: 'Inteligencja ' + str(root.checkStats('intelligence'))+'/20'
+			ProgressBar:
+				max: 20
+				value: root.checkStats('intelligence')
+		BoxLayout:
+			size_hint_y: .3
+		BoxLayout:
+			size_hize: .4, .4
+			CustomButton:
+				text: "Zamknij"
+				on_release: root.dism()
+
+<EquippedItems>:
+	column1: column1_view
+	column2: column2_view
+	column3: column3_view
+	column4: column4_view
+	column5: column5_view
+	column1weapon: column1weapon_view
+	column2weapon: column2weapon_view
+	column3weapon: column3weapon_view
+	column4weapon: column4weapon_view
+	column5weapon: column5weapon_view
+	orientation: 'horizontal'
+
+	CustomBoxLayout:
+		orientation: 'vertical'
+		CustomBoxLayout:
+			ListView:
+				id: column1_view
+				size_hint_x: .3
+			ListView:
+				id: column2_view
+				size_hint_x: 1
+			ListView:
+				id: column3_view
+				size_hint_x: .3
+			ListView:
+				id: column4_view
+				size_hint_x: 1
+			ListView:
+				id: column5_view
+				size_hint_x: .4
+		CustomBoxLayout:
+			size_hint_y: .5
+			ListView:
+				id: column1weapon_view
+				size_hint_x: .3
+			ListView:
+				id: column2weapon_view
+				size_hint_x: 1
+			ListView:
+				id: column3weapon_view
+				size_hint_x: .3
+			ListView:
+				id: column4weapon_view
+				size_hint_x: 1
+			ListView:
+				id: column5weapon_view
+				size_hint_x: .4
+		CustomBoxLayout:
+			size_hint_y: .3
+			CustomButton:
+				text: "Zamknij"
+				on_release: root.dism()
+
+
+<AddItem>:
+	CustomBoxLayout:
+		orientation: 'vertical'
+		CustomBoxLayout:
+			CustomBoxLayout:
+				orientation: 'vertical'
+				BoxLayout:
+					spacing:10 
+					Button:
+						text: 'Wprowadz nazwe'
+						on_release: textInputName.focus = True
+					Button:
+						id: ArmorOrDamage	
+						text_size: self.width, None		
+						halign: 'center'
+						text: 'Wprowadz pancerz'
+						on_release: textInputArmorOrDamage.focus = True
+						size_hint_x: 0.5
+					Button:
+						text: 'Wprowadz bonus'
+						on_release: textInputBonus.focus = True
+					Button:
+						text: 'Wprowadz koszt'
+						on_release: textInputCost.focus = True
+						size_hint_x: 0.55
+				BoxLayout:
+					spacing: 10
+					TextInput:
+						id: textInputName
+						text: ''
+					TextInput:
+						id: textInputArmorOrDamage
+						size_hint_x: 0.5
+						text: ''
+					TextInput:
+						id: textInputBonus
+						text: ''
+					TextInput:
+						id: textInputCost
+						size_hint_x: 0.55
+						text: ''
+			CustomBoxLayout:
+				size_hint_x: .35
+				orientation: 'vertical'
+				Spinner:
+					id: spinnerElement
+					font_size: 32
+					text: 'Helm'
+					values: ['Helm', 'Naramienniki', 'Zbroja', 'Rekawiczki', 'Spodnie', 'Buty', 'Bron']
+					on_text:	
+						if self.text == 'Bron': ArmorOrDamage.text = 'Wprowadz obrazenia'
+						else: ArmorOrDamage.text = 'Wprowadz pancerz'
+		CustomBoxLayout:
+			orientation: 'vertical'
+			CustomButton:
+				text: "Dodaj"
+				on_release: root.addItem(textInputName.text,textInputArmorOrDamage.text,textInputBonus.text,textInputCost.text,spinnerElement.text)
+			CustomButton:
+				text: "Zamknij"
+				on_release: root.dism()
+			
+<EquipOrDeleteItem>:
+	CustomBoxLayout:	
+		padding:5
+		orientation: 'vertical'
+		CustomBoxLayout:	
+			CustomButton:
+				text: 'Zaloz'
+				on_release:
+					root.changeItem()
+					root.dism()
+			CustomButton:
+				text: 'Usun'
+				on_release: 
+					root.deleteItem()
+					root.dism()
+		CustomBoxLayout:
+			CustomButton:
+				text: 'Wyjscie'
+				on_release: root.dism()
+
+
